@@ -2,4 +2,6 @@
 
 Joyeux Noel 
 
+Tout mon code est en python et écrit en lutin
+
 ![](assets/xmas.webp)
