@@ -159,18 +159,14 @@ def part2():
         for j in range(MAT_HEIGHT):
             cur_char = matrix[i][j]
             if cur_char == "A":
-                sd = False
-                fd = False
-
                 a=i+1
                 b=j+1
                 c=i-1
                 d=j-1
 
-                fd = check_x(a,b,c,d,"M","S") or check_x(a,b,c,d,"S","M")
-                sd = check_x(a,d,c,b,"M","S") or check_x(a,d,c,b,"S","M")
-       
-                if sd and fd:
+                if (check_x(a,b,c,d,"M","S") or check_x(a,b,c,d,"S","M")) and \
+                    (check_x(a,d,c,b,"M","S") or check_x(a,d,c,b,"S","M")):
+                    xmas_couples.append((i,j))
                     count += 1
     print_matrix_p2()
     print(count)
