@@ -1,3 +1,5 @@
+from typing import Optional
+
 with open(f"data/data.txt", "r") as f:
     raw = f.readlines()
 
@@ -30,7 +32,7 @@ found_indexes = []
 to_print = {}
 found_words = []
 
-def get_dict(i,j):
+def get_dict(i: int, j: int) -> dict:
     return  {
               "left": (i-1,j),
               "right": (i+1, j),
@@ -45,14 +47,14 @@ def get_dict(i,j):
               "up-right":(i+1, j+1)
     }
 
-def next_char(char):
+def next_char(char: str) -> str:
     next_char = None
     if char != "S":
         index = WORD.index(char)
         next_char = WORD[index+1]
     return next_char
 
-def look_direction(i, j, char, direction):
+def look_direction(i: int, j: int, char: str, direction: str) -> Optional[bool]:
     global found_indexes
     global to_print
     global CURRENT_WORD
@@ -90,7 +92,7 @@ def look_direction(i, j, char, direction):
                 return True
 
 
-def look_around(i, j, char):
+def look_around(i: int, j: int, char: str) -> bool:
     global CURRENT_WORD
 
     around = get_dict(i,j)
@@ -124,7 +126,7 @@ def part1():
 #################### PART 2 ############################
 xmas_couples = []
 
-def bound_check(i1, j1, i2, j2):
+def bound_check(i1: int, j1: int, i2: int, j2: int) -> bool:
     return i1 >= 0 and j1 >= 0 and i1 < MAT_WIDTH and j1 < MAT_HEIGHT and i2>=  0 and j2 >= 0 and i2 < MAT_WIDTH and j2 < MAT_HEIGHT
 
 def check_x(a,b,c,d, char1, char2):
