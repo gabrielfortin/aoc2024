@@ -128,6 +128,9 @@ def part1():
 def bound_check(i1, j1, i2, j2):
     return i1 >= 0 and j1 >= 0 and i1 < MAT_WIDTH and j1 < MAT_HEIGHT and i2>=  0 and j2 >= 0 and i2 < MAT_WIDTH and j2 < MAT_HEIGHT
 
+def check_x(a,b,c,d, char1, char2):
+    return bound_check(a,b,c,d) and matrix[a][b] == char1 and matrix[c][d] == char2
+
 def part2():
     count = 0
     for i in range(MAT_WIDTH):
@@ -136,15 +139,15 @@ def part2():
             if cur_char == "A":
                 sd = False
                 fd = False
-                if bound_check(i+1,j+1, i-1, j-1) and matrix[i+1][j+1] == "M" and matrix[i-1][j-1] == "S":
-                    fd = True
-                if bound_check(i+1,j+1, i-1,j-1) and matrix[i+1][j+1] == "S" and matrix[i-1][j-1] == "M":
-                    fd = True
-                if bound_check(i+1,j-1,i-1,j+1) and matrix[i+1][j-1] == "S" and matrix[i-1][j+1] == "M":
-                    sd = True
-                if bound_check(i+1,j-1,i-1,j+1) and matrix[i+1][j-1] == "M" and matrix[i-1][j+1] == "S":
-                    sd = True
 
+                a=i+1
+                b=j+1
+                c=i-1
+                d=j-1
+
+                fd = check_x(a,b,c,d,"M","S") or check_x(a,b,c,d,"S","M")
+                sd = check_x(a,d,c,b,"M","S") or check_x(a,d,c,b,"S","M")
+       
                 if sd and fd:
                     count += 1
     print(count)
