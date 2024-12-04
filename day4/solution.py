@@ -4,6 +4,8 @@ with open(f"data/test.txt", "r") as f:
     raw = f.readlines()
 
 matrix = [i.strip() for i in raw]
+MAT_HEIGHT = len(matrix)
+MAT_WIDTH = len(matrix[0])
 
 class bcolors:
     GREEN = '\033[92m'
@@ -24,8 +26,6 @@ def print_matrix():
 
 #################### PART 1 ############################
 WORD = "XMAS"
-MAT_HEIGHT = len(matrix)
-MAT_WIDTH = len(matrix[0])
 
 found_indexes = []
 to_print = {}
@@ -35,23 +35,16 @@ def get_dict(i: int, j: int) -> dict:
     return  {
               "left": (i-1,j),
               "right": (i+1, j),
-    
               "up": (i,j+1), 
               "down":(i,j-1), 
-
               "down-left": (i-1,j-1), 
               "down-right":(i-1,j+1),
-
               "up-left":(i+1,j-1), 
               "up-right":(i+1, j+1)
     }
 
-def next_char(char: str) -> str:
-    next_char = None
-    if char != "S":
-        index = WORD.index(char)
-        next_char = WORD[index+1]
-    return next_char
+def next_char(char: str) -> Optional[str]:
+    return WORD[WORD.index(char)+1] if char != "S" else None
 
 def look_direction(i: int, j: int, char: str, direction: str) -> Optional[bool]:
     global found_indexes
@@ -69,8 +62,6 @@ def look_direction(i: int, j: int, char: str, direction: str) -> Optional[bool]:
         near_item = matrix[near_item_ij[0]][near_item_ij[1]]
     except IndexError:
         return
-
-    print([near_item, n_char])
 
     if near_item == n_char:
         if n_char == "S":
@@ -91,13 +82,11 @@ def look_around(i: int, j: int, char: str) -> bool:
     ret_value = False
               
     for direction, loc in around.items():
-        if loc[0] >= 0 and loc[1] >= 0 and \
-                loc[0] < MAT_HEIGHT and loc[1] < MAT_WIDTH and \
-                matrix[loc[0]][loc[1]] == "M":
+        if loc[0] >= 0 and loc[1] >= 0 and loc[0] < MAT_HEIGHT and loc[1] < MAT_WIDTH and matrix[loc[0]][loc[1]] == "M":
             r = look_direction(loc[0], loc[1], char, direction)
-            if r is True:
+            if r:
                 ret_value = True
-                to_print[loc] = "YELLOW"
+                to_print[loc] = "RED"
             
     return ret_value
     
@@ -109,7 +98,7 @@ def part1():
             cur_char = matrix[i][j]
             if cur_char == "X":
                 if look_around(i, j, "M"):
-                    to_print[(i,j)] = "RED"
+                    to_print[(i,j)] = "GREEN"
 
     print_matrix()
     print(len([c for c in found_indexes]))
