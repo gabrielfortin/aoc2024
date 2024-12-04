@@ -9,6 +9,8 @@ class bcolors:
     RED = '\033[91m'
     ENDC = '\033[0m'
 
+
+#################### PART 1 ############################
 WORD = "XMAS"
 MAT_HEIGHT = len(matrix)
 MAT_WIDTH = len(matrix[0])
@@ -125,11 +127,31 @@ def part1():
     print_matrix()
     print(len([word for word in found_words if "MAS" in word]))
 
+
+#################### PART 2 ############################
+xmas_couples = []
+
 def bound_check(i1, j1, i2, j2):
     return i1 >= 0 and j1 >= 0 and i1 < MAT_WIDTH and j1 < MAT_HEIGHT and i2>=  0 and j2 >= 0 and i2 < MAT_WIDTH and j2 < MAT_HEIGHT
 
 def check_x(a,b,c,d, char1, char2):
-    return bound_check(a,b,c,d) and matrix[a][b] == char1 and matrix[c][d] == char2
+    validation = bound_check(a,b,c,d) and matrix[a][b] == char1 and matrix[c][d] == char2
+    if validation:
+        global xmas_couples
+        xmas_couples.append((a,b))
+        xmas_couples.append((c,d))
+    return validation
+
+def print_matrix_p2():
+    for i in range(MAT_WIDTH):
+        row = ""
+        for j in range(MAT_HEIGHT):
+            
+            if (i,j) in xmas_couples:
+                row += f"{bcolors.RED}{matrix[i][j]}{bcolors.ENDC}"
+            else:
+                row += f"{matrix[i][j]}"
+        print(row)
 
 def part2():
     count = 0
@@ -150,7 +172,10 @@ def part2():
        
                 if sd and fd:
                     count += 1
+    print_matrix_p2()
     print(count)
+
+
 
 
 
