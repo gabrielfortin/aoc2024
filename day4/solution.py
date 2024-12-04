@@ -1,6 +1,6 @@
 from typing import Optional
 
-with open(f"data/data.txt", "r") as f:
+with open(f"data/test.txt", "r") as f:
     raw = f.readlines()
 
 matrix = [i.strip() for i in raw]
@@ -26,7 +26,6 @@ def print_matrix():
 WORD = "XMAS"
 MAT_HEIGHT = len(matrix)
 MAT_WIDTH = len(matrix[0])
-CURRENT_WORD = ""
 
 found_indexes = []
 to_print = {}
@@ -57,7 +56,6 @@ def next_char(char: str) -> str:
 def look_direction(i: int, j: int, char: str, direction: str) -> Optional[bool]:
     global found_indexes
     global to_print
-    global CURRENT_WORD
 
     n_char = next_char(char)
     if n_char is None:
@@ -76,16 +74,12 @@ def look_direction(i: int, j: int, char: str, direction: str) -> Optional[bool]:
 
     if near_item == n_char:
         if n_char == "S":
-            CURRENT_WORD += n_char
-            found_words.append(CURRENT_WORD)
-            print("found")
-            found = f"{near_item_ij}{direction}{CURRENT_WORD}"
+            found = f"{near_item_ij}{direction}"
             to_print[near_item_ij] = "RED"
             if found not in found_indexes:
                 found_indexes.append(found)
             return True
         else:
-            CURRENT_WORD += n_char
             r = look_direction(near_item_ij[0], near_item_ij[1], n_char, direction)
             if r is True:
                 to_print[near_item_ij] = "GREEN"
@@ -93,34 +87,32 @@ def look_direction(i: int, j: int, char: str, direction: str) -> Optional[bool]:
 
 
 def look_around(i: int, j: int, char: str) -> bool:
-    global CURRENT_WORD
-
     around = get_dict(i,j)
+    ret_value = False
               
     for direction, loc in around.items():
         if loc[0] >= 0 and loc[1] >= 0 and \
                 loc[0] < MAT_HEIGHT and loc[1] < MAT_WIDTH and \
                 matrix[loc[0]][loc[1]] == "M":
-            CURRENT_WORD += char
             r = look_direction(loc[0], loc[1], char, direction)
             if r is True:
+                ret_value = True
                 to_print[loc] = "YELLOW"
             
-    return False
+    return ret_value
     
 def part1():
-    global CURRENT_WORD
     global to_print
     to_print = {}
     for i in range(MAT_WIDTH):
         for j in range(MAT_HEIGHT):
             cur_char = matrix[i][j]
             if cur_char == "X":
-                CURRENT_WORD = cur_char
-                look_around(i, j, "M")
+                if look_around(i, j, "M"):
+                    to_print[(i,j)] = "RED"
 
     print_matrix()
-    print(len([word for word in found_words if "MAS" in word]))
+    print(len([c for c in found_indexes]))
 
 
 #################### PART 2 ############################
