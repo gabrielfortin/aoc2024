@@ -3,6 +3,12 @@ with open(f"data/data.txt", "r") as f:
 
 matrix = [i.strip() for i in raw]
 
+class bcolors:
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    RED = '\033[91m'
+    ENDC = '\033[0m'
+
 WORD = "XMAS"
 MAT_HEIGHT = len(matrix)
 MAT_WIDTH = len(matrix[0])
@@ -92,6 +98,20 @@ def look_around(i, j, char):
             
     return False
 
+def print_matrix():
+    for i in range(MAT_WIDTH):
+        row = ""
+        for j in range(MAT_HEIGHT):
+            
+            if (i,j) in found_s:
+                row += f"{bcolors.RED}{matrix[i][j]}{bcolors.ENDC}"
+            elif (i,j) in found_a:
+                row += f"{bcolors.OKGREEN}{matrix[i][j]}{bcolors.ENDC}"
+            elif (i,j) in found_m:
+                row += f"{bcolors.WARNING}{matrix[i][j]}{bcolors.ENDC}"
+            else:
+                row += f"{matrix[i][j]}"
+        print(row)
     
 def part1():
     global CURRENT_WORD
@@ -102,27 +122,34 @@ def part1():
                 CURRENT_WORD = cur_char
                 look_around(i, j, "M")
 
+    print_matrix()
+    print(len([word for word in found_words if "MAS" in word]))
+
+def bound_check(i1, j1, i2, j2):
+    return i1 >= 0 and j1 >= 0 and i1 < MAT_WIDTH and j1 < MAT_HEIGHT and i2>=  0 and j2 >= 0 and i2 < MAT_WIDTH and j2 < MAT_HEIGHT
+
+def part2():
+    count = 0
+    for i in range(MAT_WIDTH):
+        for j in range(MAT_HEIGHT):
+            cur_char = matrix[i][j]
+            if cur_char == "A":
+                sd = False
+                fd = False
+                if bound_check(i+1,j+1, i-1, j-1) and matrix[i+1][j+1] == "M" and matrix[i-1][j-1] == "S":
+                    fd = True
+                if bound_check(i+1,j+1, i-1,j-1) and matrix[i+1][j+1] == "S" and matrix[i-1][j-1] == "M":
+                    fd = True
+                if bound_check(i+1,j-1,i-1,j+1) and matrix[i+1][j-1] == "S" and matrix[i-1][j+1] == "M":
+                    sd = True
+                if bound_check(i+1,j-1,i-1,j+1) and matrix[i+1][j-1] == "M" and matrix[i-1][j+1] == "S":
+                    sd = True
+
+                if sd and fd:
+                    count += 1
+    print(count)
+
+
 
 part1()
-
-class bcolors:
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    RED = '\033[91m'
-    ENDC = '\033[0m'
-
-for i in range(MAT_WIDTH):
-    row = ""
-    for j in range(MAT_HEIGHT):
-        
-        if (i,j) in found_s:
-            row += f"{bcolors.RED}{matrix[i][j]}{bcolors.ENDC}"
-        elif (i,j) in found_a:
-            row += f"{bcolors.OKGREEN}{matrix[i][j]}{bcolors.ENDC}"
-        elif (i,j) in found_m:
-            row += f"{bcolors.WARNING}{matrix[i][j]}{bcolors.ENDC}"
-        else:
-            row += f"{matrix[i][j]}"
-    print(row)
-
-print(len([word for word in found_words if "MAS" in word]))
+part2()
