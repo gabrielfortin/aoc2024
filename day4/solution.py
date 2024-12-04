@@ -1,6 +1,6 @@
 from typing import Optional
 
-with open(f"data/test.txt", "r") as f:
+with open(f"data/data.txt", "r") as f:
     raw = f.readlines()
 
 matrix = [i.strip() for i in raw]
