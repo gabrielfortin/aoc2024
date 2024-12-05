@@ -52,7 +52,7 @@ def solve(part: int):
             sum += get_mid(line)
         elif valid is False and part == 2:
             sum += get_mid(fix_line(line))
-    print(sum)
+    print(f"Part {part} answer : {sum}")
 
 solve(1)
 solve(2)
