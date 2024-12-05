@@ -38,6 +38,9 @@ def compare(a, b):
 def fix_line(line):
     return sorted(line,key=functools.cmp_to_key(compare))
 
+def get_mid(line):
+    return line[math.floor(len(line)/2)]
+
 def solve(part: int):
     sum = 0
     for line in data2:
@@ -46,12 +49,9 @@ def solve(part: int):
             if not validate_num(num, line):
                 valid = False
         if valid and part == 1:
-            middle = line[math.floor(len(line)/2)]
-            sum += middle
+            sum += get_mid(line)
         elif valid is False and part == 2:
-            l = fix_line(line)
-            middle = l[math.floor(len(line)/2)]
-            sum += middle
+            sum += get_mid(fix_line(line))
     print(sum)
 
 solve(1)
