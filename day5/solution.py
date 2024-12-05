@@ -16,11 +16,6 @@ for entry in data1.split("\n"):
     else:
         rules[key].append(value)
 
-
-
-print(rules)
-print(data2)
-
 def validate_num(num: str, line):
     valid = True
     if num in rules:
@@ -45,7 +40,6 @@ def fix_line(line):
     newline = sorted(line,key=functools.cmp_to_key(compare))
     return newline
 
-
 def solve(part: int):
     sum = 0
     for line in data2:
@@ -53,8 +47,6 @@ def solve(part: int):
         for num in line:
             if not validate_num(num, line):
                 valid = False
-
-        print(valid)
         if valid and part == 1:
             middle = line[math.floor(len(line)/2)]
             sum += middle
