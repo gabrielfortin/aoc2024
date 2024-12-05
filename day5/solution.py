@@ -1,4 +1,5 @@
 import functools
+import math
 with open("data/data.txt", "r") as f:
     raw = f.read()
 
@@ -26,8 +27,6 @@ def validate_num(num: str, line):
 
     return valid
 
-import math
-
 def compare(a, b):
     if a in rules and b in rules[a]:
         return -1
@@ -37,8 +36,7 @@ def compare(a, b):
         return 1
 
 def fix_line(line):
-    newline = sorted(line,key=functools.cmp_to_key(compare))
-    return newline
+    return sorted(line,key=functools.cmp_to_key(compare))
 
 def solve(part: int):
     sum = 0
