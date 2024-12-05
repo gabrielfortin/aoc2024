@@ -5,7 +5,7 @@ with open("data/data.txt", "r") as f:
 
 data1 = raw.split("\n\n")[0]
 data2 = raw.split("\n\n")[1]
-data2 = [[int(i) for i in entry.split(",")] for entry in data2.split("\n")]
+updates = [[int(i) for i in entry.split(",")] for entry in data2.split("\n")]
 
 rules = {}
 for entry in data1.split("\n"):
@@ -43,7 +43,7 @@ def get_mid(line):
 
 def solve(part: int):
     sum = 0
-    for line in data2:
+    for line in updates:
         valid = True
         for num in line:
             if not validate_num(num, line):
