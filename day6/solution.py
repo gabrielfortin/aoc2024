@@ -49,7 +49,7 @@ class LutinDeMerde:
             new_x = self._current_x + CURSORS[self._current_dir][1]
             new_y = self._current_y + CURSORS[self._current_dir][0]
 
-            if new_x < 0 or new_x >= len(self._matrix[0]) or new_y < 0 or new_y >= len(self._matrix):
+            if new_x < 0 or new_x >= len(self._matrix) or new_y < 0 or new_y >= len(self._matrix[0]):
                 return True
             elif self._matrix[new_x][new_y] == ".":
                 #print(new_x, new_y)
