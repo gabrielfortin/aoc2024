@@ -19,6 +19,7 @@ class LutinDeMerde:
         self._matrix = [[j for j in i.strip()] for i in raw]
         self.locate_cursor()
         self._visited = dict()
+        self.add_to_visited()
 
     def locate_cursor(self):
         for i in range(len(self._matrix)):
