@@ -10,13 +10,16 @@ CURSORS = {
 CURSORS_ORDER = [">", "v", "<", "^"]
 
 class LutinDeMerde:
-    def __init__(self, filename: str):
-        with open(f"data/{filename}.txt", "r") as f:
-            raw = f.readlines()
+    def __init__(self, filename: str = None, matrix: list = None):
+        if filename is not None:
+            with open(f"data/{filename}.txt", "r") as f:
+                raw = f.readlines()
+            self._matrix = [[j for j in i.strip()] for i in raw]
+        elif matrix is not None:
+            self._matrix = matrix
         self._current_x = 0
         self._current_y = 0
         self._current_dir = "^"
-        self._matrix = [[j for j in i.strip()] for i in raw]
         self.locate_cursor()
         self._visited = dict()
         self.add_to_visited()
@@ -30,16 +33,25 @@ class LutinDeMerde:
                     self._current_dir = self._matrix[i][j]
                     return
                 
-    def walk(self):
+    def walk(self, print_info=True):
         """
         Walk through the matrix until the cursor goes out of bounds
         """
+        iterations = 0
         while True:
             res = self.step()
+            iterations +=1
+
+            if iterations > 10000:
+                print("loop detected")
+                return "loop"
+
             if res is True:
-                self.print_map()
-                print(self._current_x, self._current_y, self._current_dir)
-                print(f"Total visited : {len(self._visited)}")
+                if print_info:
+                    self.print_map()
+                    print(self._current_x, self._current_y, self._current_dir)
+                    print(f"{iterations} iterations")
+                    print(f"Total visited : {len(self._visited)}")
                 break
 
     def step(self) -> Optional[bool]:
@@ -57,7 +69,7 @@ class LutinDeMerde:
             self._current_x = new_x
             self._current_y = new_y
             self.add_to_visited()
-        elif self._matrix[new_x][new_y] == "#":
+        elif self._matrix[new_x][new_y] in ["#", "O"]:
             self.turn()
         else:
             print("error")
@@ -105,4 +117,32 @@ print(p1._current_x, p1._current_y, p1._current_dir)
 p1.walk()
 
 ## P2
+if True:
+    with open(f"data/data.txt", "r") as f:
+        raw = f.readlines()
+        matrix = [[j for j in i.strip()] for i in raw]
 
+    def get_all_dots(matrix):
+        indexes = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if matrix[i][j] == ".":
+                    indexes.append((i,j))
+        return indexes
+
+    dots_ij = get_all_dots(matrix)
+    summ = 0
+    count = 0
+    for index in dots_ij:
+        with open(f"data/data.txt", "r") as f:
+            raw = f.readlines()
+            new_mat = [[j for j in i.strip()] for i in raw]
+        new_mat[index[0]][index[1]] = "O"
+
+        lutin = LutinDeMerde(matrix=new_mat)
+        if lutin.walk(False) == "loop":
+            summ+=1
+        count += 1
+        print(f"{100*count/len(dots_ij)}%")
+
+    print(summ)
