@@ -134,12 +134,13 @@ def part2():
     summ = 0
     count = 0
     percent = 0
+    with open(f"data/data.txt", "r") as f:
+        raw = f.readlines()
+        matrix = [[j for j in i.strip()] for i in raw]
+
     for index in dots_ij:
-        with open(f"data/data.txt", "r") as f:
-            raw = f.readlines()
-            matrix = [[j for j in i.strip()] for i in raw]
-        
         # Ajout d'un nouvel obstacle
+        matrix = [[j for j in i.strip()] for i in raw]
         matrix[index[0]][index[1]] = "O"
 
         # Tester
@@ -154,7 +155,7 @@ def part2():
             print(f"{percent}%")
         
         # Remettre la matrice comme avant
-        # matrix[index[0]][index[1]] = "."
+        matrix[index[0]][index[1]] = "."
 
     print(f"part2 : {summ}")
 
