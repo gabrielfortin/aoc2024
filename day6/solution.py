@@ -43,7 +43,7 @@ class LutinDeMerde:
             iterations +=1
 
             if iterations > 10000:
-                print("loop detected")
+                #print("loop detected")
                 return "loop"
 
             if res is True:
@@ -133,6 +133,7 @@ if True:
     dots_ij = get_all_dots(matrix)
     summ = 0
     count = 0
+    percent = 0
     for index in dots_ij:
         with open(f"data/data.txt", "r") as f:
             raw = f.readlines()
@@ -143,6 +144,9 @@ if True:
         if lutin.walk(False) == "loop":
             summ+=1
         count += 1
-        print(f"{100*count/len(dots_ij)}%")
+
+        if int(100*count/len(dots_ij)) != percent:
+            percent = int(100*count/len(dots_ij))
+            print(f"{percent}%")
 
     print(summ)
