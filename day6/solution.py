@@ -21,8 +21,16 @@ class LutinDeMerde:
         self._current_y = 0
         self._current_dir = "^"
         self.locate_cursor()
+       # print(self._current_x, self._current_y, self._current_dir)
+        self._initial_x = self._current_x
+        self._initial_y = self._current_y
+        self._initial_dir = self._current_dir
         self._visited = dict()
         self.add_to_visited()
+
+    def reinit(self):
+        self._matrix[self._current_x][self._current_y] = "."
+        self._matrix[self._initial_x][self._initial_y] = self._initial_dir
 
     def locate_cursor(self):
         for i in range(len(self._matrix)):
@@ -101,7 +109,8 @@ class LutinDeMerde:
         """
         Print the map with the cursor and the visited cells
         """
-        new_mat = self._matrix.copy()
+        from copy import deepcopy
+        new_mat = deepcopy(self._matrix)
         for visited in self._visited.keys():
             new_mat[int(visited.split(",")[0])][int(visited.split(",")[1])] = "X"
         new_mat[self._current_x][self._current_y] = self._current_dir
@@ -134,28 +143,25 @@ def part2():
     summ = 0
     count = 0
     percent = 0
-    with open(f"data/data.txt", "r") as f:
-        raw = f.readlines()
-        matrix = [[j for j in i.strip()] for i in raw]
-
+    
     for index in dots_ij:
         # Ajout d'un nouvel obstacle
-        matrix = [[j for j in i.strip()] for i in raw]
         matrix[index[0]][index[1]] = "O"
 
         # Tester
         lutin = LutinDeMerde(matrix=matrix)
         if lutin.walk(False) == "loop":
             summ+=1
-        count += 1
-
+        
         # Affichage %
+        count += 1
         if int(100*count/len(dots_ij)) != percent:
             percent = int(100*count/len(dots_ij))
             print(f"{percent}%")
         
         # Remettre la matrice comme avant
-        #matrix[index[0]][index[1]] = "."
+        matrix[index[0]][index[1]] = "."
+        lutin.reinit()
 
     print(f"part2 : {summ}")
 
