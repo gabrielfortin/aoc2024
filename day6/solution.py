@@ -1,4 +1,7 @@
 from typing import Optional
+from copy import deepcopy
+
+MAX_ITER_COUNT = 6000
 
 CURSORS = {
     ">": (1,0), 
@@ -21,7 +24,6 @@ class LutinDeMerde:
         self._current_y = 0
         self._current_dir = "^"
         self.locate_cursor()
-       # print(self._current_x, self._current_y, self._current_dir)
         self._initial_x = self._current_x
         self._initial_y = self._current_y
         self._initial_dir = self._current_dir
@@ -41,8 +43,9 @@ class LutinDeMerde:
                     self._current_dir = self._matrix[i][j]
                     return
                 
-    def walk(self, print_info=True):
+    def walk(self, print_info: bool = True) -> Optional[str]:
         """
+        :param print_info: Print the map and the cursor position
         Walk through the matrix until the cursor goes out of bounds
         """
         iterations = 0
@@ -50,8 +53,7 @@ class LutinDeMerde:
             res = self.step()
             iterations +=1
 
-            if iterations > 6000:
-                #print("loop detected")
+            if iterations > MAX_ITER_COUNT:
                 return "loop"
 
             if res is True:
@@ -93,7 +95,6 @@ class LutinDeMerde:
             self._current_dir = CURSORS_ORDER[i+1]
         else:
             self._current_dir = CURSORS_ORDER[0]
-        #print(self._current_dir)
 
     def add_to_visited(self):
         """
@@ -109,7 +110,6 @@ class LutinDeMerde:
         """
         Print the map with the cursor and the visited cells
         """
-        from copy import deepcopy
         new_mat = deepcopy(self._matrix)
         for visited in self._visited.keys():
             new_mat[int(visited.split(",")[0])][int(visited.split(",")[1])] = "X"
@@ -126,8 +126,11 @@ print(p1._current_x, p1._current_y, p1._current_dir)
 p1.walk()
 
 ## P2
-def part2():
-    with open(f"data/data.txt", "r") as f:
+def part2(filename: str):
+    """
+    :param filename: The name of the file to read
+    """
+    with open(f"data/{filename}.txt", "r") as f:
         raw = f.readlines()
         matrix = [[j for j in i.strip()] for i in raw]
 
@@ -165,4 +168,5 @@ def part2():
 
     print(f"part2 : {summ}")
 
-part2()
+part2("test")
+part2("data")
