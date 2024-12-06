@@ -120,7 +120,7 @@ p1.walk()
 def part2():
     with open(f"data/data.txt", "r") as f:
         raw = f.readlines()
-        matrix = [[j for j in i.strip()] for i in raw]
+    matrix = [[j for j in i.strip()] for i in raw]
 
     def get_all_dots(matrix):
         indexes = []
@@ -135,9 +135,8 @@ def part2():
     count = 0
     percent = 0
     for index in dots_ij:
-        with open(f"data/data.txt", "r") as f:
-            raw = f.readlines()
-            new_mat = [[j for j in i.strip()] for i in raw]
+      
+        new_mat = [[j for j in i.strip()] for i in raw]
         new_mat[index[0]][index[1]] = "O"
 
         lutin = LutinDeMerde(matrix=new_mat)
