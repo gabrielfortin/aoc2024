@@ -155,7 +155,7 @@ def part2():
             print(f"{percent}%")
         
         # Remettre la matrice comme avant
-        matrix[index[0]][index[1]] = "."
+        #matrix[index[0]][index[1]] = "."
 
     print(f"part2 : {summ}")
 
