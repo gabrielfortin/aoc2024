@@ -136,16 +136,21 @@ def part2():
     percent = 0
     for index in dots_ij:
       
+        # Ajout d'un nouvel obstacle
         matrix[index[0]][index[1]] = "O"
 
+        # Tester
         lutin = LutinDeMerde(matrix=matrix)
         if lutin.walk(False) == "loop":
             summ+=1
         count += 1
 
+        # Affichage %
         if int(100*count/len(dots_ij)) != percent:
             percent = int(100*count/len(dots_ij))
             print(f"{percent}%")
+        
+        # Remettre la matrice comme avant
         matrix[index[0]][index[1]] = "."
 
     print(summ)
