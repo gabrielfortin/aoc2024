@@ -117,7 +117,7 @@ print(p1._current_x, p1._current_y, p1._current_dir)
 p1.walk()
 
 ## P2
-if True:
+def part2():
     with open(f"data/data.txt", "r") as f:
         raw = f.readlines()
         matrix = [[j for j in i.strip()] for i in raw]
@@ -150,3 +150,5 @@ if True:
             print(f"{percent}%")
 
     print(summ)
+
+part2()
