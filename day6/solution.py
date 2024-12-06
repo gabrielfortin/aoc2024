@@ -42,7 +42,7 @@ class LutinDeMerde:
             res = self.step()
             iterations +=1
 
-            if iterations > 10000:
+            if iterations > 6000:
                 #print("loop detected")
                 return "loop"
 
@@ -120,7 +120,7 @@ p1.walk()
 def part2():
     with open(f"data/data.txt", "r") as f:
         raw = f.readlines()
-    matrix = [[j for j in i.strip()] for i in raw]
+        matrix = [[j for j in i.strip()] for i in raw]
 
     def get_all_dots(matrix):
         indexes = []
@@ -135,7 +135,10 @@ def part2():
     count = 0
     percent = 0
     for index in dots_ij:
-      
+        with open(f"data/data.txt", "r") as f:
+            raw = f.readlines()
+            matrix = [[j for j in i.strip()] for i in raw]
+        
         # Ajout d'un nouvel obstacle
         matrix[index[0]][index[1]] = "O"
 
@@ -151,8 +154,8 @@ def part2():
             print(f"{percent}%")
         
         # Remettre la matrice comme avant
-        matrix[index[0]][index[1]] = "."
+        # matrix[index[0]][index[1]] = "."
 
-    print(summ)
+    print(f"part2 : {summ}")
 
 part2()
