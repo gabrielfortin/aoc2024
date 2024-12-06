@@ -136,10 +136,9 @@ def part2():
     percent = 0
     for index in dots_ij:
       
-        new_mat = [[j for j in i.strip()] for i in raw]
-        new_mat[index[0]][index[1]] = "O"
+        matrix[index[0]][index[1]] = "O"
 
-        lutin = LutinDeMerde(matrix=new_mat)
+        lutin = LutinDeMerde(matrix=matrix)
         if lutin.walk(False) == "loop":
             summ+=1
         count += 1
@@ -147,6 +146,7 @@ def part2():
         if int(100*count/len(dots_ij)) != percent:
             percent = int(100*count/len(dots_ij))
             print(f"{percent}%")
+        matrix[index[0]][index[1]] = "."
 
     print(summ)
 
