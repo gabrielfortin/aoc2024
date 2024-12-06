@@ -12,7 +12,7 @@ CURSORS = {
 
 CURSORS_ORDER = [">", "v", "<", "^"]
 
-class LutinDeMerde:
+class Lutin:
     def __init__(self, filename: str = None, matrix: list = None):
         if filename is not None:
             with open(f"data/{filename}.txt", "r") as f:
@@ -117,11 +117,12 @@ class LutinDeMerde:
         for i in new_mat:
             print("".join(i))
 
-p1=LutinDeMerde("test")
+
+p1=Lutin("test")
 print(p1._current_x, p1._current_y, p1._current_dir)
 p1.walk()
 
-p1=LutinDeMerde("data")
+p1=Lutin("data")
 print(p1._current_x, p1._current_y, p1._current_dir)
 p1.walk()
 
@@ -152,7 +153,7 @@ def part2(filename: str):
         matrix[index[0]][index[1]] = "O"
 
         # Tester
-        lutin = LutinDeMerde(matrix=matrix)
+        lutin = Lutin(matrix=matrix)
         if lutin.walk(False) == "loop":
             summ+=1
         
