@@ -46,24 +46,23 @@ class LutinDeMerde:
         """
         Move the cursor to the next cell (1 iteration)
         """
-        if self._current_dir in CURSORS:
-            new_x = self._current_x + CURSORS[self._current_dir][1]
-            new_y = self._current_y + CURSORS[self._current_dir][0]
+        new_x = self._current_x + CURSORS[self._current_dir][1]
+        new_y = self._current_y + CURSORS[self._current_dir][0]
 
-            if new_x < 0 or new_x >= len(self._matrix) or new_y < 0 or new_y >= len(self._matrix[0]):
-                return True
-            elif self._matrix[new_x][new_y] == ".":
-                #print(new_x, new_y)
-                self._matrix[self._current_x][self._current_y] = "."
-                self._current_x = new_x
-                self._current_y = new_y
-                self.add_to_visited()
-            elif self._matrix[new_x][new_y] == "#":
-                self.turn()
-            else:
-                print("error")
-                print(self._matrix[new_x][new_y])
-                return
+        if new_x < 0 or new_x >= len(self._matrix) or new_y < 0 or new_y >= len(self._matrix[0]):
+            return True
+        elif self._matrix[new_x][new_y] == ".":
+            #print(new_x, new_y)
+            self._matrix[self._current_x][self._current_y] = "."
+            self._current_x = new_x
+            self._current_y = new_y
+            self.add_to_visited()
+        elif self._matrix[new_x][new_y] == "#":
+            self.turn()
+        else:
+            print("error")
+            print(self._matrix[new_x][new_y])
+            return
     
     def turn(self):
         """
@@ -104,3 +103,6 @@ p1.walk()
 p1=LutinDeMerde("data")
 print(p1._current_x, p1._current_y, p1._current_dir)
 p1.walk()
+
+## P2
+
