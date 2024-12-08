@@ -38,7 +38,7 @@ def calc_harmonies(pos1: Tuple[int, int], pos2: Tuple[int, int], p1: Optional[bo
     else:
         hs = []
         p_vector = [pos1[0], pos1[1], pos2[0], pos2[1]]
-        d_vector = [delta_x, delta_y, 0-delta_x, 0-delta_y]
+        d_vector = [delta_x, delta_y, -delta_x, -delta_y]
         for i in range(HARMONIES_CALC_LIMIT):
             hs.extend([(p_vector[0]+delta_x, p_vector[1]+delta_y), (p_vector[2]-delta_x, p_vector[3]-delta_y)])
             p_vector = [a + b for a, b in zip(p_vector, d_vector)]
