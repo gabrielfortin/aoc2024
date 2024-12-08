@@ -4,7 +4,7 @@ with open("data/data.txt", "r") as f:
     raw = f.readlines()
 raw = [i.strip() for i in raw]
 matrix = [[j for j in i] for i in raw]
-pprint(matrix)
+#pprint(matrix)
 
 antennas_ij = {}
 antennas_types = {}
@@ -18,8 +18,6 @@ for i in range(len(matrix)):
                 antennas_types[elem].append((i,j))
             else:
                 antennas_types[elem] = [(i,j)]
-#pprint(antennas_ij)
-#pprint(antennas_types)
 
 def calc_harmonies(pos1, pos2, p1=True):
     delta_x = int(pos1[0]) - int(pos2[0])
@@ -53,11 +51,9 @@ def calc(p1=True):
                 if position1 != position2:
                     hs = calc_harmonies(position1, position2, p1=p1)
                     if len(hs) > 0:
-                        #print(position1)
                         an_locs[position1]  = 1
                         an_locs[position2]  = 1
                     for h in hs:
-                        #print(f"h : {h}")
                         if p1:
                             if h[0] > -1 and h[1] > -1 and h[0] < len(matrix) and h[1] < len(matrix):
                                 new_mat[h[0]][h[1]] = "#"
@@ -77,8 +73,8 @@ def calc(p1=True):
                     count += 1
     else:
         count = len(an_locs.keys())
-        #pprint(list(an_locs.keys()))
-    print(count)
+    
+    print(f"{'Part 1' if p1 else 'Part 2'} answer : {count}")
 
 calc(p1=True)
 calc(p1=False)
