@@ -24,7 +24,7 @@ for i in range(len(matrix)):
 
 def calc_harmonies(pos1: Tuple[int, int], pos2: Tuple[int, int], p1: Optional[bool]=True) -> List[Tuple[int,int]]:
     """
-    calculate harmonies
+    calculate harmonies, single ones for part 1 and delimited by HARMONIES_CALC_LIMIT for part2
     :param pos1: position of the first antenna
     :param pos2: position of the first antenna
     :param p1: If true, will calculate for part 1 of day 8, otherwise, for part 2
@@ -46,7 +46,7 @@ def calc_harmonies(pos1: Tuple[int, int], pos2: Tuple[int, int], p1: Optional[bo
 
 def calc(p1: Optional[bool] = True):
     new_mat = deepcopy(matrix)
-    an_locs=dict()
+    an_locs = dict()
 
     for antenna_type, positions in antennas_types.items():
         for position1 in positions:
@@ -54,8 +54,8 @@ def calc(p1: Optional[bool] = True):
                 if position1 != position2:
                     hs = calc_harmonies(position1, position2, p1=p1)
                     if len(hs) > 0:
-                        an_locs[position1]  = 1
-                        an_locs[position2]  = 1
+                        an_locs[position1] = 1
+                        an_locs[position2] = 1
                     for h in hs:
                         if p1:
                             if h[0] > -1 and h[1] > -1 and h[0] < len(matrix) and h[1] < len(matrix):
