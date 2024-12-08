@@ -6,25 +6,29 @@ with open(f"data/{filename}.txt", "r") as f:
 
 data = [[j.strip() for j in i.split(":")] for i in raw]
 #print(data)
-def eval_gauche_droite(expression):
-    print(expression)
+def eval_gauche_droite(expression, p1=True):
+    #print(expression)
     result = int(expression[0])
-    add = True
+    add = 0
     for i in range(1,len(expression)):
         item = expression[i]
         if item == "+":
-            add = True
+            add = 0
         elif item == "*":
-            add = False
+            add = 1
+        elif item == "||":
+            add = 2
         else:
-            if add:
+            if add == 0:
                 result = result + int(item)
-            else:
+            elif add == 1:
                 result = result * int(item)
+            elif add == 2:
+                result = int(str(result) + str(item))
 
     return result
 
-operators = ["*", "+"]
+operators = ["*", "+", "||"]
 
 def process_eq(result: int, params: list):
     permu = product(operators, repeat=len(params)-1)
