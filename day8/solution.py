@@ -18,8 +18,8 @@ for i in range(len(matrix)):
                 antennas_types[elem].append((i,j))
             else:
                 antennas_types[elem] = [(i,j)]
-pprint(antennas_ij)
-pprint(antennas_types)
+#pprint(antennas_ij)
+#pprint(antennas_types)
 
 def calc_harmonies(pos1, pos2, p1=True):
     delta_x = int(pos1[0]) - int(pos2[0])
@@ -42,8 +42,6 @@ def calc_harmonies(pos1, pos2, p1=True):
             base_posx2-=delta_x
             base_posy2-=delta_y
         return hs
-            
-
 
 def calc(p1=True):
     new_mat = deepcopy(matrix)
@@ -55,21 +53,23 @@ def calc(p1=True):
                 if position1 != position2:
                     hs = calc_harmonies(position1, position2, p1=p1)
                     if len(hs) > 0:
-                        print(position1)
+                        #print(position1)
                         an_locs[position1]  = 1
                         an_locs[position2]  = 1
                     for h in hs:
                         #print(f"h : {h}")
+                        if p1:
+                            if h[0] > -1 and h[1] > -1 and h[0] < len(matrix) and h[1] < len(matrix):
+                                new_mat[h[0]][h[1]] = "#"
                         if h[0] > -1 and h[1] > -1 and h[0] < len(matrix) and h[1] < len(matrix):
-                            #print(new_mat[h[0]][h[1]])
                             if new_mat[h[0]][h[1]] not in ["#", "."]:
                                 an_locs[(h[0],h[1])] = "1"
                             else:
                                 new_mat[h[0]][h[1]] = "#"
                                 an_locs[(h[0],h[1])] = 1
 
-    #pprint(new_mat)
     if p1:
+        pprint(new_mat)
         count = 0
         for i in range(len(new_mat)):
             for j in range(len(new_mat[i])):
@@ -80,4 +80,5 @@ def calc(p1=True):
         #pprint(list(an_locs.keys()))
     print(count)
 
+calc(p1=True)
 calc(p1=False)
