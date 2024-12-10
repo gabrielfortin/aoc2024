@@ -29,18 +29,27 @@ R = [str(c) for c in R]
 
 free_indexes = list()
 file_indexes = list()
+
+
 for i in range(len(R)):
     c = R[i]
     if c == ".":
         free_indexes.append(i)
     else:
         file_indexes.append(i)
-
+    
+TOTAL = len(free_indexes)
+PROG = 0
+percent = 0
 for index in free_indexes:
     #print(index)
     #print("".join(R))
-    if all([R[i] == "." for i in range(index+1, len(R))]):
+    #if all([R[i] == "." for i in range(, len(R))]):
+    #    break
+   # print(f"a {R.index(".")}")
+    if all([R[i] == "." for i in range(R.index("."), len(R))]):
         break
+    
 
     R[index] = str(R[int(file_indexes[-1])])
     
@@ -48,7 +57,10 @@ for index in free_indexes:
     
     file_indexes = file_indexes[:-1]
 
-
+    PROG += 1
+    if int(100*PROG/TOTAL) != percent:
+        percent = int(100*PROG/TOTAL)
+        print(f"{percent}%")
     
 def calc_checksum(R: list):
     checksum = 0
@@ -57,5 +69,5 @@ def calc_checksum(R: list):
             checksum += i*int(R[i])
     return checksum
 
-#print("".join(R))
+print("".join(R))
 print(calc_checksum(R))
